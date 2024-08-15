@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35201.85
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PipeReports.API", "PipeReports.API.csproj", "{E8465F08-DCB9-4068-A6A8-1DACD17D5508}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E8465F08-DCB9-4068-A6A8-1DACD17D5508}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E8465F08-DCB9-4068-A6A8-1DACD17D5508}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E8465F08-DCB9-4068-A6A8-1DACD17D5508}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E8465F08-DCB9-4068-A6A8-1DACD17D5508}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8B297242-AA31-4AA2-AE11-8FF3D0D3EEBA}
+	EndGlobalSection
+EndGlobal
