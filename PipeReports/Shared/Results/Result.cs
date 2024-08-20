@@ -1,4 +1,4 @@
-﻿namespace PipeReports.API.Shared;
+﻿namespace PipeReports.API.Shared.Results;
 
 public class Result
 {
