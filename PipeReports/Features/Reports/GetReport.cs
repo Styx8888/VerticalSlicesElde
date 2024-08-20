@@ -1,9 +1,9 @@
 ﻿using Carter;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using PipeReports.API.Contracts;
+using PipeReports.API.Contracts.Report;
 using PipeReports.API.Database;
-using PipeReports.API.Shared;
+using PipeReports.API.Shared.Results;
 
 namespace PipeReports.API.Features.Reports;
 
@@ -25,14 +25,15 @@ public static class GetReport
             var reportResponse = await _dbContext
                 .Reports
                 .AsNoTracking()
+                .Where(x => x.Id == request.Id)
                 .Select(x => new ReportResponse(x.Id,
                                                 x.Client,
                                                 x.Email)
                 )
-                .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken: cancellationToken);
+                .FirstOrDefaultAsync(cancellationToken);
 
             if (reportResponse is null)
-                return Result.Failure<ReportResponse>(new Error("GetReport.NotFound", $"Report with id = {request.Id} not found."));
+                return Error.NotFound($"Report with id = {request.Id} not found.");
             return reportResponse;
         }
     }
@@ -48,12 +49,10 @@ public class GetReportEndpoint : ICarterModule
 
             var result = await sender.Send(query);
 
-            if (result.IsFailure)
-            {
-                return Results.NotFound(result.Error);
-            }
+            return result.Match(
+                () => Results.Ok(result.Value),
+                error => Results.NotFound(error));
 
-            return Results.Ok(result.Value);
         });
     }
 }
