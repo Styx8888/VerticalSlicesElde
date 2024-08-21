@@ -1,10 +1,10 @@
 ﻿using Carter;
 using FluentValidation;
 using MediatR;
-using PipeReports.API.Contracts;
+using PipeReports.API.Contracts.Report;
 using PipeReports.API.Database;
 using PipeReports.API.Entities;
-using PipeReports.API.Shared;
+using PipeReports.API.Shared.Results;
 
 namespace PipeReports.API.Features.Reports;
 
@@ -40,7 +40,7 @@ public static class CreateReport
         {
             var validationResult = _validator.Validate(request);
             if (!validationResult.IsValid)
-                return Result.Failure<int>(new Error("CreateReport.Validation", validationResult.ToString()));
+                return Error.Validation(validationResult.ToString());
 
             var report = new Report()
             {
@@ -48,10 +48,10 @@ public static class CreateReport
                 Email = request.Email,
             };
 
-            await _dbContext.AddAsync(report);
+            await _dbContext.AddAsync(report, cancellationToken);
             await _dbContext.SaveChangesAsync(cancellationToken);
 
-            return Result.Success(report.Id);
+            return report.Id;
         }
     }
 }
@@ -70,12 +70,9 @@ public class CreateReportEndpoint : ICarterModule
 
             var result = await sender.Send(command);
 
-            if (result.IsFailure)
-            {
-                return Results.BadRequest(result.Error);
-            }
-
-            return Results.Ok(result.Value);
+            return result.Match(
+               () => Results.Ok(result.Value),
+               Results.BadRequest);
         });
     }
 }
